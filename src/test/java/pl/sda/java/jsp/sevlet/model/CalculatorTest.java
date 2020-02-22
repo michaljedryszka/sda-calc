@@ -18,23 +18,38 @@ public class CalculatorTest {
     public void display() {
         String value = "5";
         calculator.input(value);
-
-        Assert.assertEquals(value, calculator.display());
+        calculator.input(value);
+        calculator.input(value);
+        Assert.assertEquals("555", calculator.display());
     }
 
     @org.junit.Test
     public void input() {
+        String value = "5";
+        calculator.input(value);
+        Assert.assertEquals("5", calculator.display());
     }
 
     @org.junit.Test
     public void reset() {
+        String value = "5";
+        calculator.input(value);
+        calculator.reset();
+        Assert.assertEquals("", calculator.display());
     }
 
     @org.junit.Test
     public void calculate() {
     }
 
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void testWhenOperatorThrowsIllegalArgumentExc() {
+        calculator.operator("aqws");
+    }
+
     @org.junit.Test
-    public void operator() {
+    public void testOperatorOk() {
+        calculator.operator("+");
+        Assert.assertEquals("+", calculator.display());
     }
 }
