@@ -29,16 +29,43 @@ public class Calculator {
     }
 
     public void reset() {
-        operandA = "";
-        operandB = "";
+        resetOperandA();
+        resetOperantB();
         operator = Operator.EMPTY;
     }
 
-    public void calculate() {
+    private void resetOperandA() {
+        operandA = "";
+    }
 
+    private void resetOperantB() {
+        operandB = "";
+    }
+
+    public void calculate() {
+        switch (operator) {
+            case EMPTY:
+                break;
+            case DIV:
+                break;
+            case PLUS:
+                operandA = "" + (Integer.valueOf(operandA)
+                        + Integer.valueOf(operandB));
+                operator = Operator.EMPTY;
+                resetOperantB();
+                break;
+            case MINUS:
+                break;
+            case MULTI:
+                break;
+                default: throw new IllegalStateException("Invalid operator " + operator);
+        }
     }
 
     public void operator(String value) {
+        if(operator != Operator.EMPTY){
+            calculate();
+        }
         for(Operator operator: Operator.values()){
             if(operator.displayValue.equals(value)){
                 this.operator = operator;
