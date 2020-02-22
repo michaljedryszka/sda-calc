@@ -34,26 +34,41 @@ public class Calc extends HttpServlet {
 
         if ("+".equals(request.getParameter("operator"))) {
             operator = "+";
-            if(!operandB.isEmpty()){
-                operandA = "" + (Integer.valueOf(operandA)
-                        + Integer.valueOf(operandB));
-                operandB = "";
-            }
+            executeAdding();
+            operandB = "";
+        } else if ("-".equals(request.getParameter("operator"))) {
+            operator = "-";
+            executeSubstraction();
+            operandB = "";
         } else if ("CE".equals(request.getParameter("ce"))) {
             operandA = "";
             operandB = "";
             operator = "";
         } else if ("=".equals(request.getParameter("evaluate"))) {
-            if(operator.equals("+")){
-                if(!operandB.isEmpty()) {
-                    operandA = "" + (Integer.valueOf(operandA)
-                            + Integer.valueOf(operandB));
-                }
-                operandB = "";
-                operator = "";
+            if (operator.equals("+")) {
+                executeAdding();
             }
+            if (operator.equals("-")) {
+                executeSubstraction();
+            }
+            operandB = "";
+            operator = "";
         }
         printForm(request, response);
+    }
+
+    private void executeSubstraction() {
+        if (!operandB.isEmpty()) {
+            operandA = "" + (Integer.valueOf(operandA)
+                    - Integer.valueOf(operandB));
+        }
+    }
+
+    private void executeAdding() {
+        if (!operandB.isEmpty()) {
+            operandA = "" + (Integer.valueOf(operandA)
+                    + Integer.valueOf(operandB));
+        }
     }
 
     private void printForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
