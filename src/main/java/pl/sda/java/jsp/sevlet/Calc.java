@@ -34,15 +34,21 @@ public class Calc extends HttpServlet {
 
         if ("+".equals(request.getParameter("operator"))) {
             operator = "+";
-
+            if(!operandB.isEmpty()){
+                operandA = "" + (Integer.valueOf(operandA)
+                        + Integer.valueOf(operandB));
+                operandB = "";
+            }
         } else if ("CE".equals(request.getParameter("ce"))) {
             operandA = "";
             operandB = "";
             operator = "";
         } else if ("=".equals(request.getParameter("evaluate"))) {
             if(operator.equals("+")){
-                operandA = "" + (Integer.valueOf(operandA)
-                        + Integer.valueOf(operandB));
+                if(!operandB.isEmpty()) {
+                    operandA = "" + (Integer.valueOf(operandA)
+                            + Integer.valueOf(operandB));
+                }
                 operandB = "";
                 operator = "";
             }
