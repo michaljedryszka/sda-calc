@@ -13,14 +13,22 @@ import java.util.Objects;
 public class Calc extends HttpServlet {
 
     private String display = "";
+    private String operandA = "";
+    private String operandB = "";
+    private String operator = "";
 
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
 
         if (Objects.nonNull(request.getParameter("arg"))) {
-            display += request.getParameter("arg");
+            if(operator.isEmpty()){
+                operandA += request.getParameter("arg");
+            }else{
+                operandB += request.getParameter("arg");
+            }
         }
+        display = operandA + operator + operandB;
 
         request.setAttribute("display", display);
 
@@ -30,7 +38,13 @@ public class Calc extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        display = "";
+
+        if("+".equals(request.getParameter("operator"))){
+            operator = "+";
+            display = operandA + operator;
+        } else if("CE".equals(request.getParameter("ce"))){
+            display = "";
+        }
         request.setAttribute("display", display);
         request.getRequestDispatcher("WEB-INF/jsp/kalkulator.jsp")
                 .forward(request, response);
