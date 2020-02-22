@@ -13,32 +13,39 @@ import java.util.Objects;
 @WebServlet(name = "calc", urlPatterns = "/calc")
 public class Calc extends HttpServlet {
 
-    private Calculator calculator = new Calculator();
-
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         if (Objects.nonNull(request.getParameter("arg"))) {
-            calculator.input(request.getParameter("arg"));
+            calculator(request).input(request.getParameter("arg"));
         }
         printForm(request, response);
+    }
+
+    private Calculator calculator(HttpServletRequest request){
+        Calculator calculator = (Calculator) request.getSession().getAttribute("calculator");
+        if(Objects.isNull(calculator)){
+            calculator = new Calculator();
+            request.getSession().setAttribute("calculator", calculator);
+        }
+        return calculator;
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         if (Objects.nonNull(request.getParameter("operator"))) {
-            calculator.operator(request.getParameter("operator"));
+            calculator(request).operator(request.getParameter("operator"));
         } else if ("CE".equals(request.getParameter("ce"))) {
-            calculator.reset();
+            calculator(request).reset();
         } else if ("=".equals(request.getParameter("evaluate"))) {
-            calculator.calculate();
+            calculator(request).calculate();
         }
         printForm(request, response);
     }
 
     private void printForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("display", calculator.display());
+        request.setAttribute("display", calculator(request).display());
         request.getRequestDispatcher("WEB-INF/jsp/kalkulator.jsp")
                 .forward(request, response);
     }
