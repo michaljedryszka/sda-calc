@@ -16,19 +16,15 @@ public class Calc extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
-        if(Objects.isNull(request.getSession().getAttribute("email"))){
-            response.sendRedirect("/calc/email");
-        } else {
-            if (Objects.nonNull(request.getParameter("arg"))) {
-                calculator(request).input(request.getParameter("arg"));
-            }
-            printForm(request, response);
+        if (Objects.nonNull(request.getParameter("arg"))) {
+            calculator(request).input(request.getParameter("arg"));
         }
+        printForm(request, response);
     }
 
-    private Calculator calculator(HttpServletRequest request){
+    private Calculator calculator(HttpServletRequest request) {
         Calculator calculator = (Calculator) request.getSession().getAttribute("calculator");
-        if(Objects.isNull(calculator)){
+        if (Objects.isNull(calculator)) {
             calculator = new Calculator();
             request.getSession().setAttribute("calculator", calculator);
         }
