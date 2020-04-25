@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app>
+<web-app version="3.0">
     <servlet>
         <servlet-name>calc</servlet-name>
         <servlet-class>pl.sda.java.jsp.sevlet.Calc</servlet-class>

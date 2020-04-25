@@ -11,5 +11,9 @@ public class Calc extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
-    }
+
+        request.setAttribute("output", request.getParameter("arg"));
+
+        request.getRequestDispatcher("kalkulator.jsp").forward(request, response);
+   }
 }
