@@ -13,15 +13,14 @@ public class Calc extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
 
-        String input = (String) request.getSession().getAttribute("input");
-        if (input == null) {
-            input = "";
+        Calculator calculator = (Calculator) request.getSession().getAttribute("calculator");
+        if (calculator == null) {
+            calculator = new Calculator();
+            request.getSession().setAttribute("calculator", calculator);
         }
 
         if (request.getParameter("arg") != null) {
-            input = input + request.getParameter("arg");
-
-            request.getSession().setAttribute("input", input);
+            calculator.input(request.getParameter("arg"));
         }
 
         request.getRequestDispatcher("kalkulator.jsp").forward(request, response);
@@ -29,36 +28,21 @@ public class Calc extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String input = (String) req.getSession().getAttribute("input");
-        String input2 = (String) req.getSession().getAttribute("input2");
-        String operator = (String) req.getSession().getAttribute("operator");
+
+        Calculator calculator = (Calculator) req.getSession().getAttribute("calculator");
 
         if ("CE".equals(req.getParameter("ce"))) {
-            input = "";
+            calculator.clear();
         }
         if ("+".equals(req.getParameter("operator"))) {
-            input2 = input;
-            input = "";
-            operator = "+";
-            req.getSession().setAttribute("input2", input2);
-            req.getSession().setAttribute("operator", operator);
+            calculator.add();
         }
         if ("-".equals(req.getParameter("operator"))) {
-            input2 = input;
-            input = "";
-            operator = "-";
-            req.getSession().setAttribute("input2", input2);
-            req.getSession().setAttribute("operator", operator);
+            calculator.substract();
         }
         if ("=".equals(req.getParameter("evaluate"))) {
-            if ("+".equals(operator)) {
-                input = String.valueOf(Integer.valueOf(input) + Integer.valueOf(input2));
-            }
-            if ("-".equals(operator)) {
-                input = String.valueOf(Integer.valueOf(input2) - Integer.valueOf(input));
-            }
+            calculator.evaluate();
         }
-        req.getSession().setAttribute("input", input);
 
         req.getRequestDispatcher("kalkulator.jsp").forward(req, resp);
     }

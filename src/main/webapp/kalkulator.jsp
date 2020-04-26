@@ -7,7 +7,7 @@
 <body>
 <table>
     <tr>
-        <td colspan="3"><input type="text" readonly value="${input}"/></td>
+        <td colspan="3"><input type="text" readonly value="${calculator.display}"/></td>
         <td>
             <form action="/calc/calc" method="POST">
                 <input type="submit" name="ce" value="CE"/></form>
