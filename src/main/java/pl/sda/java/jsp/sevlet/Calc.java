@@ -8,12 +8,44 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Calc extends HttpServlet {
+
+    private String input = "";
+
+    private String input2 = "";
+
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
 
-        request.setAttribute("output", request.getParameter("arg"));
+        if (request.getParameter("arg") != null) {
+            input = input + request.getParameter("arg");
+        }
+
+        request.setAttribute("output", input);
 
         request.getRequestDispatcher("kalkulator.jsp").forward(request, response);
-   }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if ("CE".equals(req.getParameter("ce"))) {
+            input = "";
+        }
+        if ("+".equals(req.getParameter("operator"))) {
+            input2 = input;
+            input = "";
+        }
+        if ("=".equals(req.getParameter("evaluate"))) {
+            input = String.valueOf(Integer.valueOf(input) + Integer.valueOf(input2));
+        }
+        req.setAttribute("output", input);
+        req.getRequestDispatcher("kalkulator.jsp").forward(req, resp);
+    }
+
+    public static void main(String[] args) {
+        String s1 = new String("a");
+        String s2 = "a";
+        System.out.println(s1 == s2);
+        System.out.println(s1.equals(s2));
+    }
 }
