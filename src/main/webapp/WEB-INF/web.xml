@@ -8,4 +8,13 @@
         <servlet-name>calc</servlet-name>
         <url-pattern>/calc</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>homework</servlet-name>
+        <servlet-class>pl.sda.java.jsp.sevlet.Homework</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>homework</servlet-name>
+        <url-pattern>/homework</url-pattern>
+    </servlet-mapping>
 </web-app>
