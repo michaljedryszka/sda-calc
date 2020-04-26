@@ -13,6 +13,8 @@ public class Calc extends HttpServlet {
 
     private String input2 = "";
 
+    private String operator;
+
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
@@ -34,9 +36,20 @@ public class Calc extends HttpServlet {
         if ("+".equals(req.getParameter("operator"))) {
             input2 = input;
             input = "";
+            operator = "+";
+        }
+        if ("-".equals(req.getParameter("operator"))) {
+            input2 = input;
+            input = "";
+            operator = "-";
         }
         if ("=".equals(req.getParameter("evaluate"))) {
-            input = String.valueOf(Integer.valueOf(input) + Integer.valueOf(input2));
+            if("+".equals(operator)){
+                input = String.valueOf(Integer.valueOf(input) + Integer.valueOf(input2));
+            }
+            if("-".equals(operator)){
+                input = String.valueOf(Integer.valueOf(input2) - Integer.valueOf(input));
+            }
         }
         req.setAttribute("output", input);
         req.getRequestDispatcher("kalkulator.jsp").forward(req, resp);
