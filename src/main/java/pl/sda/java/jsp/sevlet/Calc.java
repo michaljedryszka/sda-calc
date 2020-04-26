@@ -9,13 +9,6 @@ import java.io.PrintWriter;
 
 public class Calc extends HttpServlet {
 
-    /*
-        private String input = "";
-
-        private String input2 = "";
-
-        private String operator;
-    */
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
@@ -30,8 +23,6 @@ public class Calc extends HttpServlet {
 
             request.getSession().setAttribute("input", input);
         }
-
-        request.setAttribute("output", input);
 
         request.getRequestDispatcher("kalkulator.jsp").forward(request, response);
     }
@@ -69,14 +60,6 @@ public class Calc extends HttpServlet {
         }
         req.getSession().setAttribute("input", input);
 
-        req.setAttribute("output", input);
         req.getRequestDispatcher("kalkulator.jsp").forward(req, resp);
-    }
-
-    public static void main(String[] args) {
-        String s1 = new String("a");
-        String s2 = "a";
-        System.out.println(s1 == s2);
-        System.out.println(s1.equals(s2));
     }
 }
