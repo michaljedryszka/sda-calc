@@ -13,22 +13,17 @@ public class Calc extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
 
-        if(request.getSession().getAttribute("email") != null){
-
-            Calculator calculator = (Calculator) request.getSession().getAttribute("calculator");
-            if (calculator == null) {
-                calculator = new Calculator();
-                request.getSession().setAttribute("calculator", calculator);
-            }
-
-            if (request.getParameter("arg") != null) {
-                calculator.input(request.getParameter("arg"));
-            }
-
-            request.getRequestDispatcher("kalkulator.jsp").forward(request, response);
-        }else {
-            response.sendRedirect("email");
+        Calculator calculator = (Calculator) request.getSession().getAttribute("calculator");
+        if (calculator == null) {
+            calculator = new Calculator();
+            request.getSession().setAttribute("calculator", calculator);
         }
+
+        if (request.getParameter("arg") != null) {
+            calculator.input(request.getParameter("arg"));
+        }
+
+        request.getRequestDispatcher("kalkulator.jsp").forward(request, response);
     }
 
     @Override
